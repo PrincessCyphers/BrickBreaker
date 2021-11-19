@@ -1,3 +1,5 @@
+import org.w3c.dom.css.Rect;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -63,6 +65,34 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
             //for ball to detect the paddle
             if(new Rectangle(ballPosX, ballPosY, 20, 20).intersects(new Rectangle(playerX, 575, 150, 10))) {
                 ballYdir = -ballYdir;
+            }
+
+           A: for (int i = 0; i < map.map.length; i++) {
+                for (int j = 0; j < map.map[0].length; j++) {
+                    if(map.map[i][j] > 0) {
+                    int brickX = j * map.brickWidth + 80;
+                    int brickY = i * map.brickHeight + 50;
+                    int brickWidth = map.brickWidth;
+                    int brickHeight = map.brickHeight;
+
+                    Rectangle rect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
+                    Rectangle ballRect = new Rectangle(ballPosX, ballPosY, 20, 20);
+                    Rectangle brickRect = rect;
+
+                    if (ballRect.intersects(brickRect)) {
+                        map.setBrickValue(0, i, j);
+                        totalBricks --;
+                        score +=5;
+
+                        if (ballPosX + 19 <= brickRect.x || ballPosX + 1 >= brickRect.x + brickRect.width) {
+                            ballXdir =- ballXdir;
+                        } else {
+                            ballYdir =- ballYdir;
+                        }
+                        break A;
+                    }
+                    }
+                }
             }
             ballPosX += ballXdir;
             ballPosY += ballYdir;
