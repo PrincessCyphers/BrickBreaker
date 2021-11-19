@@ -3,7 +3,7 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
         JFrame frame = new JFrame();
-        Gameplay gamePlay = Gameplay();
+        Gameplay gamePlay = new Gameplay();
         frame.setTitle("BRICK BREAKER");
         frame.setBounds(10, 10, 900, 700);
         frame.setLocationRelativeTo(null);                  // so frame is central to page on opening
