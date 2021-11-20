@@ -37,21 +37,21 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         g.fillRect(1, 1, 890, 690);
 
         //map
-        map.draw((Graphics2D)g);
+        map.draw((Graphics2D) g);
 
         // border
         g.setColor(Color.white);
-        g.fillRect(0, 0, 3, 690);
-        g.fillRect(0, 0, 890, 3);
-        g.fillRect(895, 0, 3, 690);
+        g.fillRect(0, 0, 3, 690);               // left
+        g.fillRect(0, 0, 890, 3);               // top
+        g.fillRect(891, 0, 3, 690);             // right
 
         //paddle
         g.setColor(Color.lightGray);
-        g.fillRect(playerX, 575, 150, 10);
+        g.fillRect(playerX, 650, 175, 10);
 
         //scoring
         g.setColor(Color.green);
-        g.setFont(new Font("serif", Font.BOLD, 28));
+        g.setFont(new Font("sans-serif", Font.BOLD, 28));
         g.drawString("Score: " + score, 680, 50);
 
 
@@ -59,25 +59,25 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         g.setColor(Color.MAGENTA);
         g.fillOval(ballPosX, ballPosY, 20, 20);
 
-        if(totalBricks <=0) {
+        if(totalBricks <= 0) {
             play = false;
             ballXdir = 0;
             ballYdir = 0;
             g.setColor(Color.green);
-            g.setFont(new Font("serif", Font.BOLD, 35));
-            g.drawString("You won!", 500, 350);
+            g.setFont(new Font("sans-serif", Font.BOLD, 35));
+            g.drawString("You won! Score: " + score, 500, 350);
 
             g.setFont(new Font("serif", Font.BOLD, 35));
             g.drawString("Press Enter to Restart ", 400, 400);
         }
 
-        if(ballPosY > 575 ) {
+        if(ballPosY > 690 ) {
             play = false;
             ballXdir = 0;
             ballYdir = 0;
             g.setColor(Color.red);
             g.setFont(new Font("serif", Font.BOLD, 35));
-            g.drawString("GAME OVER!\nTotal Score:", 400, 350);
+            g.drawString("GAME OVER!\nTotal Score: " + score, 400, 350);
 
             g.setFont(new Font("serif", Font.BOLD, 35));
             g.drawString("Press Enter to Restart ", 400, 400);
@@ -92,7 +92,15 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         timer.start();
         if(play) {
             //for ball to detect the paddle
-            if(new Rectangle(ballPosX, ballPosY, 20, 20).intersects(new Rectangle(playerX, 575, 150, 10))) {
+            if(new Rectangle(ballPosX, ballPosY, 20, 20).intersects(new Rectangle(playerX, 650, 150, 10))) {
+                ballYdir = -ballYdir;
+                ballXdir = -2;
+            }
+            else if(new Rectangle(ballPosX, ballPosY, 20, 20).intersects(new Rectangle(playerX+70, 650, 30, 10))) {
+                ballXdir = -ballYdir;
+                ballXdir = ballXdir +1;
+            }
+            else if(new Rectangle(ballPosX, ballPosY, 20, 20).intersects(new Rectangle(playerX+30, 650, 30, 10))) {
                 ballYdir = -ballYdir;
             }
 
@@ -119,7 +127,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
                             ballYdir =- ballYdir;
                         }
                         break A;
-                    }
+                        }
                     }
                 }
             }
@@ -134,7 +142,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
             if(ballPosX > 870) {
                 ballXdir = -ballXdir;
             }
-            }
+        }
         repaint();
 
     }
@@ -164,7 +172,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (!play ){
+            if (!play){
                 play = true;
                 playerX = 450;
                 ballPosY = 350;
@@ -175,16 +183,15 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
                 map = new MapGenerator(5, 6);
 
                 repaint();
-
             }
         }
     }
     public void moveRight() {
         play = true;
-        playerX +=20;
+        playerX+=50;
     }
     public void moveLeft() {
         play = true;
-        playerX -=20;
+        playerX-=50;
     }
 }
